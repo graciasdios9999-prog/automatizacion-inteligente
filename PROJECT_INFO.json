@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "name": "Automatización Inteligente",
+  "description": "Plataforma SaaS empresarial 2026",
+  "features": [
+    "Multi-social automation",
+    "AI-powered content",
+    "CRM integrated",
+    "Stripe billing",
+    "Marketplace",
+    "Affiliate system",
+    "Real-time analytics",
+    "Webhook support"
+  ],
+  "phases": {
+    "phase1": {
+      "status": "completed",
+      "date": "2026-05-31",
+      "items": [
+        "Backend Express setup",
+        "Frontend React",
+        "API routes",
+        "Docker",
+        "Logging"
+      ]
+    },
+    "phase2": {
+      "status": "pending",
+      "items": [
+        "Dashboard real-time",
+        "WebSocket",
+        "Charts",
+        "Analytics"
+      ]
+    }
+  },
+  "stack": {
+    "backend": "Node.js + Express",
+    "frontend": "React + Tailwind",
+    "database": "PostgreSQL",
+    "cache": "Redis",
+    "ai": "OpenAI + LangChain",
+    "payment": "Stripe",
+    "hosting": "Hostinger",
+    "devops": "Docker + GitHub Actions"
+  }
+}
