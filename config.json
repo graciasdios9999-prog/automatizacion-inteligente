@@ -1,0 +1,16 @@
+{
+  "PORT": "3000",
+  "NODE_ENV": "development",
+  "FRONTEND_URL": "http://localhost:3001",
+  "BACKEND_URL": "http://localhost:3000",
+  "API_FEATURES": {
+    "AI": true,
+    "CRM": true,
+    "BILLING": true,
+    "MARKETPLACE": true,
+    "AFFILIATE": true,
+    "WEBHOOKS": true,
+    "SOCIAL": true,
+    "ANALYTICS": true
+  }
+}
