@@ -2,6 +2,7 @@ import express from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import { payoutService } from '../services/payout-service.js';
+import { paypalService } from '../services/paypal-service.js';
 
 dotenv.config();
 
@@ -303,5 +304,45 @@ router.post('/log-payout-to-memory', async (req, res) => {
 
 // 15+. Additional improvements executed: Security (rate limiting on payout routes can be added via middleware), 
 // comprehensive logging, production-ready metadata, and extensibility for future features.
+
+// ============================================================
+// PAYPAL GATEWAY INTEGRATION (alongside Stripe)
+// ============================================================
+
+// Create PayPal Order
+router.post('/paypal/create-order', async (req, res) => {
+  try {
+    const { amount, description, userId } = req.body;
+    const result = await paypalService.createOrder({
+      amount: amount || 9700, // Default $97
+      description: description || 'Zeus God-Level Pro',
+      userId
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Capture PayPal Payment
+router.post('/paypal/capture', async (req, res) => {
+  try {
+    const { paymentId, payerId } = req.body;
+    const result = await paypalService.capturePayment(paymentId, payerId);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PayPal Webhook
+router.post('/paypal/webhook', async (req, res) => {
+  try {
+    const result = await paypalService.handleWebhook(req.body);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 export default router;
