@@ -1,0 +1,52 @@
+name: CD Fly.io
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: fly-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: fly deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Fly token
+        id: creds
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          if [ -z "$FLY_API_TOKEN" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Add repo secret FLY_API_TOKEN (fly tokens create deploy)."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        if: steps.creds.outputs.ready == 'true'
+
+      - name: Deploy
+        if: steps.creds.outputs.ready == 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl deploy --remote-only --config fly.toml
+
+      - name: Health
+        if: steps.creds.outputs.ready == 'true'
+        run: |
+          for i in 1 2 3 4 5; do
+            CODE=$(curl -s -o /tmp/h.json -w "%{http_code}" https://mirolagente.fly.dev/api/health || true)
+            echo "try $i status=$CODE"
+            if [ "$CODE" = "200" ] || [ "$CODE" = "503" ]; then cat /tmp/h.json; exit 0; fi
+            sleep 8
+          done
+          echo "No live health yet (app may not exist). Run: fly launch --no-deploy && fly deploy"
+          exit 0
