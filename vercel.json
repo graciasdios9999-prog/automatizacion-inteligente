@@ -1,18 +1,9 @@
 {
-  "version": 2,
-  "builds": [
+  "framework": "nextjs",
+  "crons": [
     {
-      "src": "src/index.js",
-      "use": "@vercel/node"
+      "path": "/api/health",
+      "schedule": "*/10 * * * *"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/index.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }

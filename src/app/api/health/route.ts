@@ -1,72 +1,38 @@
-/**
- * Health check endpoint for monitoring and load balancers
- * Returns system status without exposing sensitive information
- */
+import { NextResponse } from "next/server";
+import { getPool } from "@/lib/db/client";
 
-import { NextResponse } from 'next/server';
-import { logger } from '@/lib/logger';
-import { successResponse, errorResponse, ApiError } from '@/lib/api-response';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export const runtime = 'nodejs';
-export const revalidate = 0;
+export async function GET() {
+  const started = Date.now();
+  let database: "ok" | "skipped" | "failing" = "skipped";
 
-export async function GET(request: Request) {
-  try {
-    const startTime = Date.now();
-    
-    // Check database connectivity
-    const dbHealthy = await checkDatabase();
-    
-    const duration = Date.now() - startTime;
-    
-    const status = dbHealthy ? 200 : 503;
-    const response = successResponse({
-      status: dbHealthy ? 'healthy' : 'degraded',
+  const pool = getPool();
+  if (pool) {
+    try {
+      await pool.query("SELECT 1");
+      database = "ok";
+    } catch {
+      database = "failing";
+    }
+  }
+
+  const healthy = database !== "failing";
+  const body = {
+    success: healthy,
+    data: {
+      status: healthy ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       checks: {
-        database: dbHealthy ? 'ok' : 'failing',
+        app: "ok",
+        database,
+        grok: process.env.GROK_API_KEY ? "configured" : "missing",
       },
-      responseTime: `${duration}ms`,
-    });
-    
-    logger.info('Health check', {
-      module: 'health',
-      status: dbHealthy ? 'ok' : 'degraded',
-      duration,
-    });
-    
-    return NextResponse.json(response, { status });
-  } catch (error) {
-    logger.error('Health check failed', error, { module: 'health' });
-    
-    const response = errorResponse(
-      new ApiError(
-        'HEALTH_CHECK_FAILED',
-        'Health check failed',
-        503
-      )
-    );
-    
-    return NextResponse.json(response, { status: 503 });
-  }
-}
+      responseTimeMs: Date.now() - started,
+    },
+  };
 
-async function checkDatabase(): Promise<boolean> {
-  try {
-    // Try to import db client - if it fails, assume DB is unavailable
-    // This is safe because we're catching all errors
-    const { db } = await import('@/lib/db/client');
-    
-    if (!db) {
-      return false;
-    }
-    
-    // Attempt simple query
-    await db.execute('SELECT 1');
-    return true;
-  } catch (error) {
-    logger.debug('Database health check failed', { error: String(error) });
-    return false;
-  }
+  return NextResponse.json(body, { status: healthy ? 200 : 503 });
 }
