@@ -4,6 +4,10 @@
     {
       "path": "/api/health",
       "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/worker/tick",
+      "schedule": "*/10 * * * *"
     }
   ]
 }
