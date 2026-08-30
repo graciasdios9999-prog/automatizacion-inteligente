@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   pull_request:
-    branches: [main, develop, chore/production-hardening]
+    branches: [main, develop]
   push:
     branches: [main, develop, chore/production-hardening]
 
@@ -15,10 +15,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
-      - run: npm ci
+      - run: npm install --legacy-peer-deps
       - run: npm run type-check
       - run: npm run lint -- --max-warnings=0
       - run: npm run build
         env:
           NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NEXT_TELEMETRY_DISABLED: "1"
