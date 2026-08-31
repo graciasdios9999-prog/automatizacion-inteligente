@@ -1,17 +1,14 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export default function OnboardingPage() {
-  const { user } = useUser();
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
-            ¡Bienvenido, {user?.firstName}! 🚀
+            ¡Bienvenido! 🚀
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
             Vamos a configurar tu agente de IA para comenzar a generar contenido viral y capturar leads automáticamente.

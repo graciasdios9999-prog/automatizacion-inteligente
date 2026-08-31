@@ -2,7 +2,6 @@
 
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import { useState } from 'react';
-import { UserButton } from '@clerk/nextjs';
 
 export default function SettingsPage() {
   const [socialAccounts, setSocialAccounts] = useState([
@@ -119,7 +118,6 @@ export default function SettingsPage() {
               <p className="font-semibold text-gray-900 dark:text-white">Tu Perfil</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">Gestiona tu información personal</p>
             </div>
-            <UserButton />
           </div>
         </div>
       </div>

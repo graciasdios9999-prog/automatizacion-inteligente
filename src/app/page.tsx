@@ -1,24 +1,8 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
-  const { user, isSignedIn } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isSignedIn) {
-      router.push('/dashboard');
-    }
-  }, [isSignedIn, router]);
-
-  if (isSignedIn) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800">
       {/* Navbar */}
@@ -32,13 +16,13 @@ export default function Home() {
             </div>
             <div className="flex gap-4">
               <Link
-                href="/auth/login"
+                href="/dashboard"
                 className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
               >
                 Iniciar Sesión
               </Link>
               <Link
-                href="/auth/signup"
+                href="/dashboard"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
               >
                 Registrarse
@@ -60,7 +44,7 @@ export default function Home() {
             </p>
             <div className="flex gap-4">
               <Link
-                href="/auth/signup"
+                href="/dashboard"
                 className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105"
               >
                 Comenzar Gratis 🚀
@@ -152,7 +136,7 @@ export default function Home() {
             Únete a coaches, creadores y expertos que ya están generando leads de alta calidad automáticamente
           </p>
           <Link
-            href="/auth/signup"
+            href="/dashboard"
             className="inline-block px-8 py-4 bg-white text-blue-600 rounded-lg font-bold hover:bg-gray-100 transition transform hover:scale-105"
           >
             Crear Cuenta Gratis 🚀

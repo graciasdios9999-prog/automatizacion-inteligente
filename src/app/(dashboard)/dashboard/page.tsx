@@ -1,13 +1,10 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import StatsCard from '@/components/dashboard/stats-card';
 import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardPage() {
-  const { user } = useUser();
-
   // TODO: Replace with actual API calls
   const stats = [
     { title: 'Contenido Generado', value: '12', icon: '📝' },
@@ -21,7 +18,7 @@ export default function DashboardPage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            ¡Bienvenido de vuelta, {user?.firstName}! 👋
+            ¡Bienvenido de vuelta! 👋
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
             Aquí está tu resumen de hoy

@@ -70,9 +70,6 @@ function validateEnv(): void {
   
   if (missing.length > 0) {
     console.error('❌ Missing required environment variables:', missing);
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Missing required environment variables');
-    }
   }
   
   if (issues.length > 0) {
