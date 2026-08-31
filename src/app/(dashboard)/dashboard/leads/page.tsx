@@ -206,7 +206,7 @@ export default function LeadsPage() {
                 <div>
                   <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Mensaje Inicial</p>
                   <div className="mt-2 p-3 bg-white dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-slate-600">
-                    <p className="text-gray-900 dark:text-white text-sm italic">"{selectedLead.initialMessage}"</p>
+                    <p className="text-gray-900 dark:text-white text-sm italic">&ldquo;{selectedLead.initialMessage}&rdquo;</p>
                   </div>
                 </div>
 
