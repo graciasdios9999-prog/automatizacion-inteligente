@@ -1,0 +1,5 @@
+name = "mirolagente"
+compatibility_date = "2026-08-29"
+
+[assets]
+# Cloudflare Pages/Workers as Vercel substitute. Bind env in dashboard, never commit secrets.

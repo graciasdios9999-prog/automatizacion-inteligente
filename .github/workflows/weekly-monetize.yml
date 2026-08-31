@@ -1,0 +1,33 @@
+name: Weekly monetize
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+jobs:
+  factory:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: chore/production-hardening
+      - name: Draft weekly offer issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const week = new Date().toISOString().slice(0, 10);
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Weekly offer factory ${week}`,
+              body: [
+                'Auto: replicate bestseller Guia Premium $47.',
+                'Push /api/products/weekly then /api/broadcast on all channels.',',
+                'Host: Render/Fly — Vercel blocked 402.',
+                'Do not commit secrets.',
+              ].join('\n'),
+            });

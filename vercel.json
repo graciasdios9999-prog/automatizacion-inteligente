@@ -1,18 +1,13 @@
 {
-  "version": 2,
-  "builds": [
+  "framework": "nextjs",
+  "crons": [
     {
-      "src": "src/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
+      "path": "/api/health",
+      "schedule": "*/10 * * * *"
+    },
     {
-      "src": "/(.*)",
-      "dest": "src/index.js"
+      "path": "/api/worker/tick",
+      "schedule": "*/10 * * * *"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }

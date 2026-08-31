@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop, chore/production-hardening]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, types and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Typecheck
+        run: npm run type-check
+
+      - name: Lint
+        run: npm run lint -- --max-warnings=0
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build
+
+  security:
+    name: Dependency and secret hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: npm audit (advisory only)
+        continue-on-error: true
+        run: npm audit --audit-level=high
+
+      - name: Block committed secrets / env files
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -v '\.env.example'; then
+            echo "Do not commit .env files"
+            exit 1
+          fi
+          if git grep -I -E --cached 'sk-live-|sk-proj-|github_pat_|xai-|whsec_|EAAS[A-Za-z0-9]|pk_live_[0-9]' -- . ':!.github/**' ':!docs/**' ':!*.md'; then
+            echo "Possible live secret in tree"
+            exit 1
+          fi
+          echo "Secret hygiene check passed"
