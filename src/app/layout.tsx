@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Providers from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'MiroAgente - Automatización Inteligente',
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="antialiased bg-white dark:bg-slate-950">{children}</body>
+      <body className="antialiased bg-white dark:bg-slate-950">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
