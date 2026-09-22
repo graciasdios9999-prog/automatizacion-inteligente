@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Midlife Reset Lab | Guia, Membresia y Bundle</title>
+<meta name="description" content="Guia $47, membresia $27/mes, bundle $147. Stripe seguro. YouTube @michelgonzalez-q4o."/>
+<link rel="canonical" href="https://hotpink-quail-769272.hostingersite.com/"/>
+<link rel="stylesheet" href="/midlife.css"/>
+</head>
+<body>
+<div id="app">Cargando Midlife Reset Lab...</div>
+<script>
+Promise.all([
+  fetch('/midlife-top.html').then(r=>r.text()),
+  fetch('/midlife-bottom.html').then(r=>r.text())
+]).then(([a,b])=>{
+  document.getElementById('app').outerHTML = a+b;
+}).catch(e=>{
+  document.getElementById('app').innerHTML = '<p style="padding:2rem;font-family:sans-serif">Error cargando. <a href="https://buy.stripe.com/cNi00d5Fnfocbjba2v7bW0x">Guia $47</a> · <a href="https://buy.stripe.com/14AeV77Nv8ZOcnf3E77bW0y">Membresia $27/mes</a> · <a href="https://buy.stripe.com/cNi7sFaZHcc01IBb6z7bW0z">Bundle $147</a></p>';
+});
+</script>
+</body>
+</html>
