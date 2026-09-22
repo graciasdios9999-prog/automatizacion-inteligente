@@ -13,9 +13,10 @@
 <script>
 Promise.all([
   fetch('/midlife-top.html').then(r=>r.text()),
-  fetch('/midlife-bottom.html').then(r=>r.text())
-]).then(([a,b])=>{
-  document.getElementById('app').outerHTML = a+b;
+  fetch('/midlife-b1.html').then(r=>r.text()),
+  fetch('/midlife-b2.html').then(r=>r.text())
+]).then((parts)=>{
+  document.getElementById('app').outerHTML = parts.join('');
 }).catch(e=>{
   document.getElementById('app').innerHTML = '<p style="padding:2rem;font-family:sans-serif">Error cargando. <a href="https://buy.stripe.com/cNi00d5Fnfocbjba2v7bW0x">Guia $47</a> · <a href="https://buy.stripe.com/14AeV77Nv8ZOcnf3E77bW0y">Membresia $27/mes</a> · <a href="https://buy.stripe.com/cNi7sFaZHcc01IBb6z7bW0z">Bundle $147</a></p>';
 });
