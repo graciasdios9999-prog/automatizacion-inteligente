@@ -17,7 +17,7 @@ export const OFFERS: Offer[] = [
     stripeProductId: 'prod_V2SrQj7tUwv7Or',
     priceUsd: 47,
     interval: 'one_time',
-    paymentLink: 'https://buy.stripe.com/cNi5kx1p7b7Wcnf2A37bW0m',
+    paymentLink: 'https://buy.stripe.com/cNi00d5Fnfocbjba2v7bW0x',
     stream: 'midlife',
   },
   {
@@ -80,7 +80,7 @@ export const OFFERS: Offer[] = [
     stripeProductId: 'prod_V83dMit91mKkGS',
     priceUsd: 147,
     interval: 'one_time',
-    paymentLink: 'https://buy.stripe.com/3cI00d7Nv6RG3QJ0rV7bW0u',
+    paymentLink: 'https://buy.stripe.com/cNi7sFaZHcc01IBb6z7bW0z',
     stream: 'midlife',
   },
   {
@@ -121,3 +121,12 @@ export function bestSeller(): Offer {
 export function findOffer(sku: string): Offer | undefined {
   return OFFERS.find((o) => o.sku === sku);
 }
+
+
+/** Live checkout links featured on Hostinger landing (2026-09-21). */
+export const LIVE_CHECKOUT = {
+  guia47: 'https://buy.stripe.com/cNi00d5Fnfocbjba2v7bW0x',
+  membresia27: 'https://buy.stripe.com/14AeV77Nv8ZOcnf3E77bW0y',
+  bundle147: 'https://buy.stripe.com/cNi7sFaZHcc01IBb6z7bW0z',
+  amazonTag: 'michelgonza0d-20',
+} as const;
