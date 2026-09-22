@@ -1,7 +1,5 @@
-'use client';
-
-import MidlifeLanding from '@/components/midlife-landing';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <MidlifeLanding />;
+  redirect('/midlife.html');
 }
